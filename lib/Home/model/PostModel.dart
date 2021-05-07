@@ -23,11 +23,14 @@ class PostModel {
   });
   factory PostModel.fromJson(Map<String, dynamic> json) {
     var list = json['post'];
-    List<CommentModel> listComments;
+    print(json['post']);
+    List<CommentModel> listComments = [];
 
     for (var i in list){
+      print(i);
       try {
-        listComments.add(CommentModel.fromJson(i));
+       CommentModel commentData = CommentModel.fromJson(i);
+        listComments.add(commentData);
       }
       catch(e) {
         // print(e.toString());

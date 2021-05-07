@@ -23,10 +23,10 @@ class LoginWebAdmin extends StatelessWidget {
     final TextEditingController _controllerPassword = TextEditingController();
     final TextEditingController _controllerUserName = TextEditingController();
     final _formKey = GlobalKey<FormState>();
-    return Scaffold(
+    return CupertinoPageScaffold(
 
         key: _scaffoldLoginKey,
-        body: Padding(
+        child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: BlocProvider(
             lazy: false,

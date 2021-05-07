@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -26,14 +27,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return CupertinoApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-
-        primarySwatch: Colors.blue,
-
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+      theme: CupertinoThemeData(
+        brightness: Brightness.dark,
+        textTheme: CupertinoTextThemeData(
+          primaryColor: CupertinoColors.white,
+          tabLabelTextStyle: TextStyle(
+            color: CupertinoColors.white,
+          )
+        )
+        // primaryColor: CupertinoColors.darkBackgroundGray,
+        // textTheme: CupertinoTextThemeData(
+        //   primaryColor: CupertinoColors.quaternaryLabel
+        // )
       ),
+
       home: _logedIn==null?LoginWebAdmin():Home(_logedIn),
 
       // child: MyHomePage(title: 'new',),

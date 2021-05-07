@@ -2,6 +2,7 @@ import 'package:Django/Home/GUI/Groups.dart';
 import 'package:Django/Home/GUI/Post.dart';
 import 'package:Django/Home/GUI/Profile.dart';
 import 'package:Django/core/sharedToken.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,38 +51,52 @@ class _HomeState extends State<Home> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.auto_awesome_motion),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.mark_as_unread),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: '',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-        iconSize: 30,
-        selectedFontSize: 10,
-      ),
+    return CupertinoPageScaffold(
+      child:CupertinoTabScaffold(
+        tabBar: CupertinoTabBar(
+          items: [
+
+              BottomNavigationBarItem(icon: Icon(Icons.home)),
+              BottomNavigationBarItem(icon: Icon(Icons.group)),
+              BottomNavigationBarItem(icon: Icon(Icons.mark_as_unread)),
+              BottomNavigationBarItem(icon: Icon(Icons.account_circle))
+
+          ],
+        ),
+          tabBuilder: (BuildContext context, index) {
+            return _widgetOptions[index];
+          }),
+      );
+      // navigationBar: CupertinoNavigationBar(
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.auto_awesome_motion),
+      //       label: '',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.group),
+      //       label: '',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.mark_as_unread),
+      //       label: '',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.account_circle),
+      //       label: '',
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: Colors.blueAccent,
+      //   unselectedItemColor: Colors.grey,
+      //   onTap: _onItemTapped,
+      //   iconSize: 30,
+      //   selectedFontSize: 10,
+      // ),
 
 
 
 
-    );
+    // );
   }
 }
