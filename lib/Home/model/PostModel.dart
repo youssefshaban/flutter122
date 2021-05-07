@@ -10,10 +10,12 @@ class PostModel {
   String Time;
   String postImg;
   int mypost;
+  int liked;
   List<CommentModel> Comments;
   PostModel({
     this.content,
     this.id,
+    this.liked,
     this.Comments,
     this.group_ID,
     this.mypost,
@@ -22,6 +24,9 @@ class PostModel {
     this.Time
   });
   factory PostModel.fromJson(Map<String, dynamic> json) {
+    var like = json['liked'];
+    if (like!=1)
+      like=0;
     var list = json['post'];
     print(json['post']);
     List<CommentModel> listComments = [];
@@ -42,6 +47,7 @@ class PostModel {
         id: json['id'],
         content: json['content'],
         Comments: listComments,
+        liked: like,
         mypost: json['mypost'],
         poster:UserModel.fromJson(json['poster_ID']),
         postImg:json['postImg'],

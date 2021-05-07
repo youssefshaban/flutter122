@@ -1,7 +1,8 @@
-
+import 'package:Django/Home/API/AddLikeAPI.dart';
 import 'package:Django/Home/API/CreatePostAPI.dart';
 import 'package:Django/Home/API/DeletePostAPI.dart';
 import 'package:Django/Home/API/PostsAPI.dart';
+import 'package:Django/Home/API/removeLikeAPI.dart';
 import 'package:Django/Home/GUI/PostCountent.dart';
 import 'package:Django/Home/GUI/UserProfile.dart';
 import 'package:Django/Home/bloc/postsBloc/posts_bloc.dart';
@@ -50,6 +51,8 @@ class _PostsState extends State<Posts> {
     }
 
     void _onLoading() async{
+      // await Future.delayed(Duration(milliseconds: 1000));
+
       if(mounted)
       _refreshController.loadComplete();
     }
@@ -358,9 +361,27 @@ class _PostsState extends State<Posts> {
                                                     Divider(),
                                                     Row(
                                                       children: [
+                                                        item.liked!=1?
                                                         Container(child: ElevatedButton(onPressed: (){
-                                                          print('like');
-                                                        },child: Icon(Icons.add_chart),),width: MediaQuery.of(context).size.width/2.3,),
+                                                          AddLikeAPI(postID: item.id.toString());
+                                                          setState(() {
+                                                            _bloc.add(getPosts());
+                                                            getData();
+                                                          });
+                                                        },child: Text('like'),),width: MediaQuery.of(context).size.width/2.3,):
+                                                        Container(child: ElevatedButton(onPressed: (){
+                                                          removeLikeAPI(postID: item.id.toString());
+                                                          setState(() {
+                                                            _bloc.add(getPosts());
+                                                            getData();
+                                                          });
+                                                        },child: Text('unlike'),style: ButtonStyle(
+                                                          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                                            (Set<MaterialState> states) {
+                                                              return CupertinoColors.destructiveRed;
+                                                            }
+                                                          )
+                                                        ),),width: MediaQuery.of(context).size.width/2.3,),
                                                         Spacer(),
                                                         Container(child: ElevatedButton(onPressed: (){
 
@@ -371,7 +392,71 @@ class _PostsState extends State<Posts> {
                                                                     PostContent(post: item,)),
                                                           );
                                                         },child: Text('comment'),),width: MediaQuery.of(context).size.width/2.3,),
-                                                    ])
+                                                    ]),
+                                                    !item.Comments.isEmpty?
+                                                    GestureDetector(
+                                                      onTap: (){
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  PostContent(post: item,)),
+                                                        );
+                                                      },
+                                                      child: SizedBox(
+                                                        height: 130,
+                                                        child:  Container(child:
+                                                          Card(
+                                                            color: CupertinoColors.secondaryLabel,
+                                                            child: ListTile(title:   GestureDetector(
+                                                              onTap: (){
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          UserProfile(user: item.Comments.first.Commenter,)),
+                                                                );
+                                                              },
+                                                              child: Row(
+                                                                children: [
+                                                                  profileImage ?
+                                                                  CircleAvatar(
+                                                                    // backgroundColor: Colors.brown.shade800,
+
+                                                                    backgroundImage:
+                                                                    NetworkImage("http://localhost:8000${item.Comments.first.Commenter.profileImage}")
+
+                                                                    ,
+                                                                  )       :
+                                                                  CircleAvatar(
+                                                                    // backgroundColor: Colors.brown.shade800,
+                                                                    child: Text(item.Comments.first.Commenter.name.substring(0,2)),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.all(8.0),
+                                                                    child: Text(item.Comments.first.Commenter.name,style: TextStyle(
+                                                                        color: CupertinoColors.white
+                                                                    )),
+                                                                  ),
+                                                                  Spacer()
+
+                                                                ],
+                                                              ),
+                                                            ),
+                                                              subtitle: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Center(child: Text(item.Comments.first.content,style: TextStyle(
+                                                                    color: CupertinoColors.white
+                                                                ),),),
+                                                              ),),
+
+                                                          ),
+                                                          ),
+
+                                                        ),
+                                                    ):
+                                                    Container(),
+
                                                   ],
                                                 ),
                                               ),
