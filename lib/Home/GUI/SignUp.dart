@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../get_books_bloc.dart';
 import 'Home.dart';
-import 'SignUp.dart';
+import 'Login.dart';
 
 
-class LoginWebAdmin extends StatelessWidget {
+class SignUp extends StatelessWidget {
   GetBooksBloc _bloc = GetBooksBloc();
 
   @override
@@ -44,7 +44,7 @@ class LoginWebAdmin extends StatelessWidget {
                           children: <Widget>[
                             Padding (
                               padding: const EdgeInsets.only(left:8.0,top:50,bottom: 12),
-                              child:(Text('Login',style: TextStyle(fontSize:20,fontWeight: FontWeight.bold),)) ,
+                              child:(Text('SignUp',style: TextStyle(fontSize:20,fontWeight: FontWeight.bold),)) ,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -77,7 +77,7 @@ class LoginWebAdmin extends StatelessWidget {
                             ),
 
                             CupertinoButton(
-                              child: Text('login'),
+                              child: Text('SignUp'),
                               onPressed: () async {
                                 _bloc.add(getUser());
                                 if (_formKey.currentState.validate()) {
@@ -122,15 +122,15 @@ class LoginWebAdmin extends StatelessWidget {
                             Center(child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('don\'t have account ? ',style: TextStyle(color: CupertinoColors.white),),
+                                Text('already have account ? ',style: TextStyle(color: CupertinoColors.white),),
                                 GestureDetector(onTap: (){
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            SignUp()),
+                                            LoginWebAdmin()),
                                   );
-                                },child: Text('SignUp now',style: TextStyle(color: CupertinoColors.activeBlue),))
+                                },child: Text('SignUp',style: TextStyle(color: CupertinoColors.activeBlue),))
                               ],
                             ),)
                           ],
@@ -149,7 +149,7 @@ class LoginWebAdmin extends StatelessWidget {
                           children: <Widget>[
                             Padding (
                               padding: const EdgeInsets.only(left:8.0,top:50,bottom: 12),
-                              child:(Text('Login',style: TextStyle(fontSize:20,fontWeight: FontWeight.bold),)) ,
+                              child:(Text('SignUp',style: TextStyle(fontSize:20,fontWeight: FontWeight.bold),)) ,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -182,7 +182,7 @@ class LoginWebAdmin extends StatelessWidget {
                             ),
 
                             CupertinoButton(
-                              child: Text('login'),
+                              child: Text('SignUp'),
                               onPressed: () async {
                                 _bloc.add(getUser());
                                 if (_formKey.currentState.validate()) {
