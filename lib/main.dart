@@ -20,8 +20,6 @@ class MyApp extends StatelessWidget {
   Future<void> check ()async{
     if(sharedToken().gettoken() != null){
       _logedIn = await sharedToken().gettoken();
-      print( sharedToken().gettoken());
-      print( '-----');
     }
   }
   // This widget is the root of your application.

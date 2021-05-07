@@ -42,13 +42,9 @@ class _HomeState extends State<Home> {
   ];
 
   Future<void> _onItemTapped(int index) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // await prefs.setString('token', Token);
-    print(await prefs.get('token'));
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // print(await prefs.get('token'));
     setState(()  {
-      // logedIn = await sharedToken().gettoken();
-
-      // print('----'+logedIn+'=====');
       _selectedIndex = index;
     });
   }

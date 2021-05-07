@@ -14,6 +14,4 @@ class userLoaded extends GetBooksEvent{
 class userError extends GetBooksEvent{
   String ErrorMsg ;
   userError({this.ErrorMsg});
-
-
 }

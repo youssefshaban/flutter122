@@ -21,17 +21,7 @@ class LoginWebAdmin extends StatelessWidget {
     }
 
     final TextEditingController _controllerPassword = TextEditingController();
-    final TextEditingController _controllerPhonenumber =
-    TextEditingController();
-    // BlocBuilder<GetBooksBloc,GetBooksState>(
-//                 // ignore: missing_return
-//                 builder: (context, state) {
-//                   if (state is GetBooksInitial){
-//                     BlocProvider.of<GetBooksBloc>(context)
-//                         .add(getbook());
-//                     return Text('init');
-//
-//                   }
+    final TextEditingController _controllerUserName = TextEditingController();
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
 
@@ -58,7 +48,7 @@ class LoginWebAdmin extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CupertinoTextField(
-                                controller:_controllerPassword ,
+                                controller:_controllerUserName ,
                                 prefix: Text('User Name'),
                                 placeholder: 'enter your name',
                                 decoration: BoxDecoration(
@@ -70,7 +60,9 @@ class LoginWebAdmin extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CupertinoTextField(
-                                controller:_controllerPhonenumber ,
+                                obscureText: true,
+                                controller:_controllerPassword ,
+                                keyboardType: TextInputType.visiblePassword,
                                 prefix: Text('Password '),
                                 placeholder: '*********',
                                 decoration: BoxDecoration(
@@ -88,33 +80,40 @@ class LoginWebAdmin extends StatelessWidget {
                               onPressed: () async {
                                 _bloc.add(getUser());
                                 if (_formKey.currentState.validate()) {
-                                  try {
-                                    UserData Login = await getAdminData(
-                                        phoneNumber: _controllerPhonenumber.text
-                                            .toString(),
-                                        password:
-                                        _controllerPassword.text.toString());
+                                  if(_controllerUserName.text.isEmpty||_controllerPassword.text.isEmpty){
+                                    showInSnackBar('fields can\'t be empty');
+                                    _bloc.add(userError(ErrorMsg: ""));
+                                  }else {
+                                    try {
+                                      UserData Login = await login(
 
-                                    if (Login.AccessToken != null) {
-                                      await sharedToken().setToken(
-                                          token: Login.AccessToken,
-                                          dateTime: DateTime.now());
-                                      print(Login.AccessToken);
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Home(Login.AccessToken)),
-                                      );
-                                    } else {
-                                      showInSnackBar('can\'t connect please check the connection and try again' );
+                                          username: _controllerUserName.text
+                                              .toString(),
+                                          password:
+                                          _controllerPassword.text.toString());
+
+                                      if (Login.AccessToken != null) {
+                                        await sharedToken().setToken(
+                                            token: Login.AccessToken,
+                                            dateTime: DateTime.now());
+                                        print(Login.AccessToken);
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Home(Login.AccessToken)),
+                                        );
+                                      } else {
+                                        showInSnackBar(
+                                            'can\'t connect please check the connection and try again');
+
+                                        _bloc.add(userError(ErrorMsg: ""));
+                                      }
+                                    } catch (e) {
+                                      showInSnackBar(e.toString());
 
                                       _bloc.add(userError(ErrorMsg: ""));
                                     }
-                                  } catch (e) {
-                                    showInSnackBar(e.toString());
-
-                                    _bloc.add(userError(ErrorMsg: ""));
                                   }
                                 }
                               },
@@ -140,7 +139,7 @@ class LoginWebAdmin extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CupertinoTextField(
-                                controller:_controllerPassword ,
+                                controller:_controllerUserName ,
                                 prefix: Text('User Name '),
                                 placeholder: 'enter your name',
                                 decoration: BoxDecoration(
@@ -152,7 +151,9 @@ class LoginWebAdmin extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CupertinoTextField(
-                                controller:_controllerPhonenumber ,
+                                obscureText: true,
+                                controller:_controllerPassword ,
+                                keyboardType: TextInputType.visiblePassword,
                                 prefix: Text('Password '),
                                 placeholder: '*********',
                                 decoration: BoxDecoration(
@@ -170,9 +171,13 @@ class LoginWebAdmin extends StatelessWidget {
                               onPressed: () async {
                                 _bloc.add(getUser());
                                 if (_formKey.currentState.validate()) {
+    if(_controllerUserName.text.isEmpty||_controllerPassword.text.isEmpty){
+    showInSnackBar('fields can\'t be empty');
+    _bloc.add(userError(ErrorMsg: ""));
+    }else {
                                   try {
-                                    UserData Login = await getAdminData(
-                                        phoneNumber: _controllerPhonenumber.text
+                                    UserData Login = await login(
+                                        username: _controllerUserName.text
                                             .toString(),
                                         password:
                                         _controllerPassword.text.toString());
@@ -198,6 +203,7 @@ class LoginWebAdmin extends StatelessWidget {
 
                                     _bloc.add(userError(ErrorMsg: ""));
                                   }
+                                }
                                 }
                               },
                             )
